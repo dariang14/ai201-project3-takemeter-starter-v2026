@@ -51,63 +51,58 @@ whether you hit them:
 
 ---
 
-## 1.
+## 1. Overall accuracy of at least 0.65 on the held-out test set.
 
-<!-- Your criterion. It must name a number. -->
-
-
-
-**Why this target:**
-
-
-
----
-
-## 2.
-
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** With three labels, a coin-flip guesser clears about 33%,
+so 0.65 requires real signal, not luck. I'm not setting it higher than that
+because the hardest boundary in my taxonomy (`hot_take` vs. `analysis`) is
+genuinely fuzzy even for a human reader — I expect some of that confusion to
+survive into the model, and 0.65 leaves room for it while still ruling out a
+model that's just guessing the majority label.
 
 ---
 
-## 3.
+## 2. Macro F1 of at least 0.60 across all three labels.
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** Overall accuracy alone can be flattered by one easy,
+overrepresented label. Macro F1 averages the three labels equally, so the
+model can't hit its target by nailing `reaction` (which I expect to be the
+easiest to spot — all-caps, exclamation points, present tense) while ignoring
+the other two.
 
 ---
 
-## 4.
+## 3. F1 for `reaction` of at least 0.50.
 
-<!-- Your criterion. -->
-
-
-
-**Why this target:**
-
-
+**Why this target:** This is my smallest and noisiest label by design — I'm
+aiming for roughly a third of 200 examples per label, so `reaction` will land
+around 60-65 examples, which means roughly 9-10 in the test split. A score
+computed on 9-10 examples swings a lot between seeds, so I'm giving it a
+looser target than my overall accuracy rather than pretending it'll be as
+stable as the full-set number.
 
 ---
 
-## 5.
+## 4. No single label makes up more than 65% of my 200 labeled examples.
 
-<!-- Your criterion. -->
+**Why this target:** The brief's floor is 70%, but I'm setting my own target
+tighter because my taxonomy only has three labels — if one label dominates
+even within the 70% cap, the other two split a small remainder and both end
+up too thin to measure reliably. 65% still leaves room for r/nba's natural
+skew (hot takes and reactions are more common than stat-backed analysis)
+without letting one label swallow the dataset.
 
+---
 
+## 5. Of the predictions the model makes with at least 0.80 softmax
+confidence, at least 85% should be correct.
 
-**Why this target:**
-
-
+**Why this target:** A "take meter" is only useful if a confident prediction
+can be trusted — a model that's 65% accurate overall but equally overconfident
+on its wrong answers is worse than one that knows when it's unsure. Because
+`hot_take` and `analysis` share a fuzzy boundary, I expect genuine uncertainty
+on some posts, and I'd rather the model express that uncertainty than guess
+confidently and be wrong.
 
 ---
 

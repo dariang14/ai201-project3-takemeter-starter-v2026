@@ -39,10 +39,14 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
-
-
+This classifier reads posts from **r/nba**, the main NBA subreddit, and sorts
+each one into one of three categories: `hot_take`, `analysis`, or `reaction`.
+r/nba is dominated by exactly these three modes of talking about basketball —
+confident unsupported claims about players and teams, arguments that cite a
+specific stat or fact, and in-the-moment responses to live games, trades, and
+news. TakeMeter exists to tell them apart automatically, which is the first
+step toward surfacing the posts that actually make an argument instead of
+just asserting one.
 
 ---
 
@@ -54,33 +58,55 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+### `hot_take`
 
-**Definition:**
-
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** A confident claim about a player's, team's, or play's quality,
+ranking, or future, offered with no supporting evidence.
 
 **Example 1:**
->
+> "Wemby is already a better defender than Rudy Gobert."
 
 **Example 2:**
->
+> "The Celtics are not winning another title with this core."
+
+### `analysis`
+
+**Definition:** An argument about a player, team, or game that is backed by a
+specific, checkable stat or fact.
+
+**Example 1:**
+> "Harden's turnover rate is actually down 3% since the trade, and his true
+> shooting against drop coverage is the best it's been in four years."
+
+**Example 2:**
+> "The Nuggets are 14-2 this season when Jokic has fewer than 4 turnovers —
+> that's the real swing stat for them, not his scoring."
+
+### `reaction`
+
+**Definition:** An immediate response to something that just happened in a
+game, trade, or news event, not yet developed into a broader claim.
+
+**Example 1:**
+> "NOOOO HE AIRBALLED THE GAME WINNER"
+
+**Example 2:**
+> "Wait, they actually traded him?? I did not see that coming."
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `hot_take` and `analysis`
 
 **The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+If the post cites a specific, checkable stat or fact to support its claim,
+it's `analysis` — even if the overall tone is heated or the conclusion is
+debatable. If the claim is asserted with confidence but backed only by vibes,
+unnumbered comparisons, or "everyone knows," it's `hot_take`. A secondary rule
+for `reaction` vs. `hot_take`: if the post is describing or responding to
+something that just happened without generalizing into a claim about a
+player's or team's quality or ranking, it's `reaction`. The moment it
+generalizes into that kind of claim, it's `hot_take`, even if a live event
+triggered it.
 
 
 
