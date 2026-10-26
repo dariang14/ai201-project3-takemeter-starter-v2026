@@ -1,5 +1,14 @@
 # TakeMeter
 
+> ### ⚠️ Partial submission — resubmitting for a higher grade
+>
+> Submitted at the unit 5 deadline in this state: community, label taxonomy,
+> and all five acceptance criteria are done (see **What This Does**, **Label
+> Taxonomy** below, and `criteria.md`). **Still to come:** `labels.csv` (the
+> 200 labelled posts), the training run, and the remaining README sections
+> (**The Dataset**, **The Training Run**, **How I Used AI**). I'll resubmit
+> the same repository URL once those are complete.
+
 > ### 👋 Start here
 >
 > **New to this repo? Read [RUNNING.md](RUNNING.md) first** — setup, the
