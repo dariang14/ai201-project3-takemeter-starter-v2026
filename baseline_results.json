@@ -1,0 +1,189 @@
+{
+  "model": "facebook/bart-large-mnli",
+  "n": 31,
+  "seed": 42,
+  "held_out": true,
+  "used_definitions": true,
+  "scores": {
+    "n": 31,
+    "accuracy": 0.7096774193548387,
+    "f1_macro": 0.5152882205513785,
+    "per_label": {
+      "analysis": {
+        "precision": 0.5,
+        "recall": 0.8571428571428571,
+        "f1": 0.631578947368421,
+        "support": 7
+      },
+      "hot_take": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 8
+      },
+      "reaction": {
+        "precision": 0.8421052631578947,
+        "recall": 1.0,
+        "f1": 0.9142857142857143,
+        "support": 16
+      }
+    }
+  },
+  "predictions": [
+    {
+      "text": "A little biased? Duncan is arguably the greatest PF, but he didn't do enough to be in the GOAT discussion. Kobe's in the same boat. He's 2nd greatest SG of all, and came up short. Both have 5. Both were considered the best, and one of the best players in the league at their peaks.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Kevin Durant dunks all over Daniel Gafford",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "He just wasn't that guy? You don't get 3 MVPs by accident, you also don't average 26 and 18 in the Finals vs 2 players everyone unanimously puts in the top 5 of NBA history without being \"that guy\". You don't beat the Lakers after Magic's historic rookie championship season in the first round averaging 31 and 18 then proceed to go to the Finals as the sixth man without being \"that guy\"",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Dillon Brooks gets called for a flagrant 2 on this play",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "The Philadelphia 76ers (6-1) defeat the Charlotte Hornets (3-4), 109-104, thanks to 38 from Tyrese Maxey.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Cooper Flagg snaps the Rocket's unbeaten streak: 33 PTS | 4 REB | 9 AST | 12-19 FG | 4-4 FT",
+      "gold": "analysis",
+      "predicted": "reaction"
+    },
+    {
+      "text": "LaMelo Ball with a wild attempt to go for the putback dunk, as Joan Beringer gets fouled",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Kelly Oubre Jr. receives a technical for waving his towel up and down during Mo Wagner free throw attempt",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Nolan Traore hits a corner 3, giving him 8 points in the 3rd quarter",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Victor Wembanyama scores the layup to give him 36 points, and Terrence Shannon Jr. wastes no time, scoring the And-1 layup for his first points of the game. Shannon is also in pain",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Stop it. Stockton is the all time leader in assists AND steals by a landslide.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Paul George hits the pullup corner 3 to put the Celtics up 7, and the Magic take a timeout.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Man both the pacers and the nets shooting like stormtroopers",
+      "gold": "hot_take",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Kobe Sanders with the no dip corner 3, and later on back to back 3s - all from the same corner. And then the driving dunk",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Klay on trips back to GS: \"I love to go compete against them because they're some of my best friends...I just can't wait to go back & see familiar faces, not just the players, but the training staff, the equipment managers, the people who work the stands and the concessions, the custodian.\"",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Jabari Smith Jr. through 7 games so far: 19 pts 5.9 reb 2.7 ast 1.9 stock on 49/45/88 shooting splits.",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "It's definitely Kobe. However, I don't think it's all that difficult to put him in the top 10. He's on the same tier as Duncan and Shaq imo, but not on the tier of Lebron/Jordan where so many people put them.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Desmond Bane and Tristan da Silva hit big 3s to cut the Celtics' lead to 6 in the 4th",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Tristan da Silva hits back to back 3s to cut the Celtics' lead to just 3, giving him 15 points in the game, and the Celtics take a timeout",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Winning their game on monday would be the grizzlies' best start ever",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Duncan was in a small market with an introverted personality and always put his team first. I wouldn't argue hard with anyone putting him in the top 5.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "LaMelo Ball is riding bumps into Victor Wembanyama and rides on him a bit",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "He's not top 5. Market has nothing to do with it since he was always pretty good to amazing. David Robinson to Manu to Parker to Leonard... TD didn't have the typical small market issues during his run with the team.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "The Boston Celtics (5-1) defeat the Orlando Magic (2-4), 108-97.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Bane breaks Gonzalez ankles but misses the three",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "It's entertainment, at the end of the day. The more entertaining players will always get the subjective nod.",
+      "gold": "hot_take",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Eh he's a weird one. I think he's a bit overrated in the underrated conversation. He seems to fall in the 15-25 range which seems right. He could score and rebound with the best of them, but he was a selfish player on offense, turned the ball over lots, couldn't pass to save his life, and despite some defensive weaknesses he has pretty well known as a poor defender. He has the resume of a top 10 player but he just isn't that guy.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Steph Curry checks out against the Lakers: 31 PTS, 4 REB, 6 AST, 8/14 from 3",
+      "gold": "analysis",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Lebron sticks his tongue out at 2 kids trying to get a high five from him.",
+      "gold": "reaction",
+      "predicted": "reaction"
+    },
+    {
+      "text": "Greg Ostertag. I know he's untouchable on this sub so bring on the downvotes, but he really wasn't that great.",
+      "gold": "hot_take",
+      "predicted": "analysis"
+    },
+    {
+      "text": "Stephen Curry is averaging 50 points per 48 minutes at the age of 38, and 3rd in PPG (29.2) despite averaging only 28 minutes a game",
+      "gold": "analysis",
+      "predicted": "analysis"
+    }
+  ]
+}
