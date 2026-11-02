@@ -2,15 +2,14 @@
 
 > ### ⚠️ Partial submission — resubmitting for a higher grade
 >
-> Updated at the unit 6 deadline. **Done:** community, label taxonomy, all
-> five acceptance criteria, the full `labels.csv` (202 posts), and the unit 5
-> README sections (**What This Does**, **Label Taxonomy**, **The Dataset**,
-> **How I Used AI**). **Still to come:** the unit 5 training run itself
-> (`results.json`, `test_split.csv`, **The Training Run** section), and all of
-> unit 6 — baseline, three-seed retrain, confusion matrix, agreement report
-> (blocked on `data/staff_labels.csv` from my TF), verdicts/diagnoses, and one
-> improvement. I'll resubmit the same repository URL once those are
-> complete.
+> Updated at the unit 6 deadline. **Unit 5 is now fully done:** community,
+> label taxonomy, all five acceptance criteria, the full `labels.csv` (202
+> posts), the real training run (`results.json`, `test_split.csv`), and every
+> unit 5 README section. **Unit 6 still to come:** the baseline comparison,
+> three-seed retrain, confusion matrix, agreement report (blocked on
+> `data/staff_labels.csv`, which has to come from my TF), verdicts/diagnoses,
+> and one improvement with a re-run. I'll resubmit the same repository URL
+> once those are complete.
 
 > ### 👋 Start here
 >
@@ -208,15 +207,29 @@ carefully, since those were the likely error cases.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, seed 42 — all
+defaults, unchanged.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. This is the
+first training run, meant to establish a baseline before any tuning.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+**Split sizes:** 140 train / 31 val / 31 test (70/15/15 of 202 total).
+Per-label counts in the test split: `reaction` 16, `hot_take` 8, `analysis`
+7. Both `hot_take` and `analysis` are right at or below the ~8-example
+threshold the brief warns about — their F1 scores should be read as noisy,
+not stable, until the three-seed run in unit 6.
+
+**Device:** `mps` (Apple Silicon GPU), torch 2.15.0.
+
+**Unit 5 result:** accuracy 0.581, macro F1 0.385. Per-label F1: `analysis`
+0.444 (n=7), `hot_take` 0.000 (n=8), `reaction` 0.711 (n=16). The confusion
+matrix shows every `hot_take` test example was predicted as `reaction` —
+the model collapsed toward the majority label rather than learning the
+`hot_take` boundary at all. This is a real, single-seed result; unit 6's
+three-seed run will show whether it's representative or if seed 42
+specifically was unlucky with such a thin `hot_take` test split.
 
 
 
