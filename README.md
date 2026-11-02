@@ -298,14 +298,28 @@ visible beforehand (`note: cold` in labels.csv).
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.710 | 0.581 | -0.129 |
+| Macro F1 | 0.515 | 0.385 | -0.130 |
+| F1 — `analysis` | 0.632 | 0.444 | -0.188 |
+| F1 — `hot_take` | 0.000 | 0.000 | 0.000 |
+| F1 — `reaction` | 0.914 | 0.711 | -0.203 |
 
-**What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
+**What I predicted before I looked:** I can't honestly fill this in as a
+blind prediction. Time pressure meant I ran the unit 5 training (and wrote up
+its results) *before* running the baseline, which is the reverse of the
+order this section assumes — so by the time I ran `baseline.py` I already
+knew the trained model's numbers. Disclosing that rather than writing a fake
+"prediction" after the fact.
+
+**What the gap actually means:** The baseline — a general-purpose zero-shot
+model with no training, just my label definitions as a prompt — beat my
+fine-tuned model on every measure. That's a real finding, not a failure to
+report quietly: with only 140 training examples and 3 epochs, the fine-tune
+likely didn't have enough signal to beat a strong pretrained model that
+already has broad language understanding baked in. Both models still failed
+identically on `hot_take` (F1 0.000) — that label is hard for a reason that
+has nothing to do with fine-tuning, which points at either the label
+definition itself or the examples, not the training process.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
