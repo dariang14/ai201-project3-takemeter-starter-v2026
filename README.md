@@ -2,12 +2,15 @@
 
 > ### ⚠️ Partial submission — resubmitting for a higher grade
 >
-> Submitted at the unit 5 deadline in this state: community, label taxonomy,
-> and all five acceptance criteria are done (see **What This Does**, **Label
-> Taxonomy** below, and `criteria.md`). **Still to come:** `labels.csv` (the
-> 200 labelled posts), the training run, and the remaining README sections
-> (**The Dataset**, **The Training Run**, **How I Used AI**). I'll resubmit
-> the same repository URL once those are complete.
+> Updated at the unit 6 deadline. **Done:** community, label taxonomy, all
+> five acceptance criteria, the full `labels.csv` (202 posts), and the unit 5
+> README sections (**What This Does**, **Label Taxonomy**, **The Dataset**,
+> **How I Used AI**). **Still to come:** the unit 5 training run itself
+> (`results.json`, `test_split.csv`, **The Training Run** section), and all of
+> unit 6 — baseline, three-seed retrain, confusion matrix, agreement report
+> (blocked on `data/staff_labels.csv` from my TF), verdicts/diagnoses, and one
+> improvement. I'll resubmit the same repository URL once those are
+> complete.
 
 > ### 👋 Start here
 >
@@ -126,19 +129,28 @@ triggered it.
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** r/nba. Reddit's API is no longer accepting new
+developer registrations (closed to new applicants as of Oct 31, 2026), so
+posts were collected by browsing r/nba directly — hot and top listings,
+individual game threads, and comment sections of debate-style posts (e.g. a
+"most overrated all-time great" thread) — and reading them off screenshots.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:** 20 posts were labelled cold — read and labelled by
+me with no AI suggestion visible before I committed to a label. The remaining
+182 were pre-labelled by Claude against the exact definitions and decision
+rule in this README, then I read and either confirmed or corrected every
+single one individually (1 label was corrected on review). Posts flagged as
+"borderline" by the pre-labelling pass were reviewed first and most
+carefully, since those were the likely error cases.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| reaction | 104 | 51.5% |
+| hot_take | 50 | 24.8% |
+| analysis | 48 | 23.8% |
+| **Total** | 202 | 100% |
 
 **Three hard cases**
 
@@ -146,25 +158,49 @@ Say so plainly — the disclosure is required, not penalised. -->
      been, and what you chose. These are worth more than the easy 190. -->
 
 **1.**
-> *The post:*
+> *The post:* "The Kings have no interest in keeping Sabonis, and he is not
+> enthused about playing with a ball-dominant guard like Acuff. But getting a
+> first-rounder for him would be a major score, and a longshot."
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`
 >
-> *I chose, because:*
+> *I chose, because:* I labelled this `hot_take`. It names a specific
+> situation (the Acuff fit) the way `analysis` posts do, but nothing in it is
+> actually a checkable fact — "not enthused" and "a major score" are the
+> poster's own read on the situation, not a stat or a reported quote. My rule
+> says a claim only earns `analysis` if it cites something verifiable; naming
+> a real player isn't the same as citing a real number.
 
 **2.**
-> *The post:*
+> *The post:* "The Sacramento Kings are the last winless team in the NBA"
 >
-> *Could have been:*
+> *Could have been:* `reaction` or `analysis`
 >
-> *I chose, because:*
+> *I chose, because:* I labelled this `analysis`. It reads like a bare
+> reaction at first, but it's actually a checkable, specific claim about
+> where a team stands relative to the entire league, not just a description
+> of something that just happened in a game. That distinction — a verifiable
+> claim about standing vs. a play-by-play recap — is what pushed me to
+> `analysis` even though there's no "argument" sentence attached to it.
 
 **3.**
-> *The post:*
+> *The post:* "A little biased? Duncan is arguably the greatest PF, but he
+> didn't do enough to be in the GOAT discussion. Kobe's in the same boat.
+> He's 2nd greatest SG of all, and came up short. Both have 5. Both were
+> considered the best, and one of the best players in the league at their
+> peaks."
 >
-> *Could have been:*
+> *Could have been:* `analysis` or `hot_take`
 >
-> *I chose, because:*
+> *I chose, because:* I labelled this `hot_take`, overriding my own
+> pre-labelling pass. "Both have 5" (rings) is a real, checkable fact, which
+> is the kind of thing my decision rule says should earn `analysis`. But that
+> one fact is buried in a post that's otherwise pure ranking opinion ("2nd
+> greatest SG", "didn't do enough") — the rings aren't being used to support
+> a specific argument, they're decoration on a take that was already made.
+> This is the clearest case where my decision rule needs a tiebreaker: one
+> real stat doesn't make a post `analysis` if the stat isn't doing the actual
+> argumentative work.
 
 ---
 
@@ -197,15 +233,41 @@ of next unit's variance. -->
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I sent Claude screenshots of r/nba (hot/top listings
+  and comment threads) since I couldn't scrape or API-access Reddit
+  (self-service API registration is closed to new applicants as of Oct 31,
+  2026), and asked it to read out real post/comment text and pre-label each
+  one against the three definitions and the hot_take/analysis decision rule
+  in this README.
+- *What came back:* A working CSV of candidate posts, each with an AI-chosen
+  label and a confidence flag ("clear" vs. "borderline"), skipping anything
+  too thin to label (bare clip captions, meta/trivia posts with no real
+  argument).
+- *What I changed:* I read every single row and either confirmed or
+  corrected the label — the "borderline"-flagged ones got the closest look.
+  One label was changed outright (the Duncan/Kobe comparison, hard case #3
+  above), and I separately hand-labelled 20 posts cold, without seeing the
+  AI's suggested label first, per the note column.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I asked Claude to build a review spreadsheet
+  (`data/review_this.csv`) I could edit directly on github.com, with mostly
+  blank columns so I'd only have to touch what I wanted to change rather than
+  re-type every row.
+- *What came back:* A simplified CSV with `your_label`, `cold`, and
+  `exclude` columns. I used it to mark my 20 cold labels, flag 3 near-
+  duplicate posts (two Reddit threads independently posting about the same
+  Victor Wembanyama 43-point game) for exclusion, and override one label.
+- *What I changed:* I caught and corrected an off-by-one indexing error in
+  which rows got excluded (Claude had excluded ids 90/119/126 when I'd meant
+  91/120/127) by checking the actual post text against what I intended to
+  exclude, not just trusting the row numbers.
+
+**Pre-labelling disclosure:** Yes — 182 of 202 final labels started as a
+Claude pre-label that I individually reviewed and either confirmed or
+corrected, as described above. 20 were labelled by me with no AI suggestion
+visible beforehand (`note: cold` in labels.csv).
 
 **Pre-labelling disclosure:**
 
