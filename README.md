@@ -2,14 +2,15 @@
 
 > ### ⚠️ Partial submission — resubmitting for a higher grade
 >
-> Updated at the unit 6 deadline. **Unit 5 is now fully done:** community,
-> label taxonomy, all five acceptance criteria, the full `labels.csv` (202
-> posts), the real training run (`results.json`, `test_split.csv`), and every
-> unit 5 README section. **Unit 6 still to come:** the baseline comparison,
-> three-seed retrain, confusion matrix, agreement report (blocked on
-> `data/staff_labels.csv`, which has to come from my TF), verdicts/diagnoses,
-> and one improvement with a re-run. I'll resubmit the same repository URL
-> once those are complete.
+> Submitted at the unit 6 deadline in this state. **Done:** all of unit 5
+> (taxonomy, criteria, `labels.csv`, training run), plus unit 6's baseline
+> comparison, three-seed retrain, confusion matrix, and a first pass at
+> verdicts/diagnoses. **Still to come:** the agreement report — genuinely
+> blocked on `data/staff_labels.csv`, which only my TF can provide, so my
+> diagnoses above are my best read of the confusion matrix alone and are
+> flagged as incomplete without that evidence — plus one improvement and a
+> re-run, and the "What's Still Broken" section. I'll resubmit the same
+> repository URL once those are complete.
 
 > ### 👋 Start here
 >
@@ -336,24 +337,40 @@ definition itself or the examples, not the training process.
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.65 | 0.581 | 0.613 | 0.516 | MISS |
+| 2. Macro F1 | ≥ 0.60 | 0.385 | 0.443 | 0.227 | MISS |
+| 3. `reaction` F1 | ≥ 0.50 | 0.711 | 0.714 | 0.681 | MET |
+| 4. No label > 65% of 200 | ≤ 65% | 51.5% (static, not per-seed) | — | — | MET |
+| 5. Confidence calibration | ≥ 0.80 conf → ≥85% correct | 0.90 | 1.00 | 1.00 | MET* |
+
+*Criterion 5 note: `results.json` records accuracy on the most-confident
+**third** of predictions, not a precise ≥0.80-softmax cutoff as I originally
+wrote the criterion. Using that third as the closest available proxy — it's
+a looser measure than I intended, so this MET should be read cautiously.
 
 ### Confusion matrix
 
-<!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
-     An image of a matrix earns nothing. -->
+<!-- From seed 42 (section 5/7's single-seed run — section 7 does not
+     aggregate across all three seeds). -->
 
-| true \ predicted |  |  |  |
+| true \ predicted | analysis | hot_take | reaction |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **analysis** | 2 | 0 | 5 |
+| **hot_take** | 0 | 0 | 8 |
+| **reaction** | 0 | 0 | 16 |
 
-**My biggest off-diagonal number, and what it means:**
+**My biggest off-diagonal number, and what it means:** All 8 real `hot_take`
+test posts were called `reaction`, and zero real `reaction` posts were ever
+called `hot_take` — completely one-directional. The model isn't confusing
+these two labels symmetrically; it's refusing to predict `hot_take` at all
+in this seed. That's consistent with `hot_take`'s F1 being 0.000 across two
+of the three seeds (see Run Log above) — this looks like either too few
+`hot_take` training examples for the model to learn the boundary from, or
+the `hot_take`/`reaction` boundary being genuinely harder than the
+`hot_take`/`analysis` boundary I designed the taxonomy around. I can't fully
+separate those two causes without the agreement report (blocked on my TF —
+see note below), which is the instrument meant to tell a labelling problem
+from a model problem.
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
@@ -369,13 +386,29 @@ definition itself or the examples, not the training process.
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.65 | MISS | All three seeds (0.581, 0.613, 0.516) fell short; none came close |
+| 2 | Macro F1 | ≥ 0.60 | MISS | All three seeds (0.385, 0.443, 0.227) fell well short, driven by `hot_take` and `analysis` collapsing in most seeds |
+| 3 | `reaction` F1 | ≥ 0.50 | MET | All three seeds (0.711, 0.714, 0.681) cleared the target comfortably |
+| 4 | No label > 65% | ≤ 65% | MET | `reaction` is the largest at 51.5% of 202 labels, under the cap |
+| 5 | Confidence calibration | ≥ 0.80 conf → ≥85% correct | MET* | Most-confident-third accuracy was 0.90, 1.00, 1.00 across seeds (proxy measure, see note above) |
 
 **Diagnoses**
+
+**Criterion 1 (accuracy) and criterion 2 (macro F1) — both MISS, same root
+cause:** Across the three seeds, `hot_take` F1 was 0.000, 0.615, 0.000 and
+`analysis` F1 was 0.444, 0.000, 0.000 — both labels are wildly unstable,
+frequently collapsing entirely to predicting `reaction` (the majority
+label, 51.5% of the data). `reaction` itself stayed strong and stable in
+every seed (F1 0.711, 0.714, 0.681). This points at **too few examples for
+`hot_take` and `analysis` relative to the task's difficulty** (7-8 examples
+each in the test split, ~50-67 in training) combined with only 3 epochs of
+fine-tuning — not a labelling consistency problem I can confirm yet, since
+that would need the agreement report to rule out. I can't fully separate
+"not enough data" from "I applied my own hot_take/analysis boundary
+inconsistently across my 200 labels" without that report. **This diagnosis
+is incomplete pending `data/staff_labels.csv` from my TF** — I'm disclosing
+that gap rather than guessing at an answer I can't yet support with
+evidence.
 
 <!-- For each miss: the cause, and how you know. The four common causes are:
      too few examples for a label, a boundary you applied inconsistently, a
